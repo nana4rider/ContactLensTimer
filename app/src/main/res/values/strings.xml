@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">ContactLensTimer</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="hello_world">Services</string>
+    <string name="action_settings">設定</string>
+    <string name="use_start_date">使用開始日</string>
+    <string name="use_end_date">交換日</string>
+
+    <string name="right_eye">右目</string>
+    <string name="left_eye">左目</string>
+    <string name="both_eyes">右目/左目</string>
+
+    <string name="lends_type_2week">2week</string>
+    <string name="lends_type_1month">1month</string>
+
+    <string name="sample_date">1970年1月1日 (木)</string>
+    <string name="sample_time">0:0</string>
+
+    <string name="title_activity_setting">SettingActivity</string>
 </resources>

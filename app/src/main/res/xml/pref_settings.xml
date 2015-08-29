@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ListPreference
+        android:defaultValue="2w"
+        android:entries="@array/lends_type"
+        android:entryValues="@array/lends_type_values"
+        android:key="lends_type"
+        android:title="コンタクトレンズの種類"
+        tools:summary="@string/lends_type_2week"></ListPreference>
+
+    <SwitchPreference
+        android:key="lends_separately"
+        android:title="左右別々に設定する"></SwitchPreference>
+
+    <SwitchPreference
+        android:key="notification"
+        android:summary="ONにするとテスト通知を行います"
+        android:title="通知設定"></SwitchPreference>
+
+    <org.bostonandroid.timepreference.TimePreference
+        android:key="notification_time"
+        android:title="通知時間"
+        tools:summary="@string/sample_time"></org.bostonandroid.timepreference.TimePreference>
+
+</PreferenceScreen>
