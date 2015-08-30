@@ -6,23 +6,22 @@
         android:entries="@array/lends_type"
         android:entryValues="@array/lends_type_values"
         android:key="lends_type"
-        android:title="コンタクトレンズの種類"
+        android:title="@string/lends_type_title"
         tools:summary="@string/lends_type_2week"></ListPreference>
 
     <SwitchPreference
         android:defaultValue="false"
         android:key="lends_separately"
-        android:title="左右別々に設定する"></SwitchPreference>
+        android:title="@string/lends_separately_title"></SwitchPreference>
 
     <SwitchPreference
         android:defaultValue="false"
         android:key="notification"
-        android:summary="ONにするとテスト通知を行います"
-        android:title="通知設定"></SwitchPreference>
+        android:title="@string/notification_title"></SwitchPreference>
 
     <org.bostonandroid.timepreference.TimePreference
         android:defaultValue="00:00"
         android:key="notification_time"
-        android:title="通知時間"
+        android:title="@string/notification_time_title"
         tools:summary="@string/sample_time"></org.bostonandroid.timepreference.TimePreference>
 </PreferenceScreen>

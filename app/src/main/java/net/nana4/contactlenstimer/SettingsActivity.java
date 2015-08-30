@@ -1,5 +1,6 @@
 package net.nana4.contactlenstimer;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(android.R.id.content, new SettingsActivityFragment());
+        fragmentTransaction.replace(android.R.id.content, Fragment.instantiate(this, SettingsActivityFragment.class.getName()));
         fragmentTransaction.commit();
     }
 

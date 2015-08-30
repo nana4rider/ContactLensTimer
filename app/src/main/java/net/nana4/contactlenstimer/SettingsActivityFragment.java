@@ -20,14 +20,14 @@ public class SettingsActivityFragment extends PreferenceFragment {
     private SwitchPreference notification;
     private TimePreference notificationTime;
 
-    private boolean registerTimer;
+    private boolean updateTimer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_settings);
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
         lendsType = (ListPreference) findPreference("lends_type");
         lendsSeparately = (SwitchPreference) findPreference("lends_separately");
@@ -45,7 +45,7 @@ public class SettingsActivityFragment extends PreferenceFragment {
                 int listIndex = lendsType.findIndexOfValue((String) value);
                 preference.setSummary(lendsType.getEntries()[listIndex]);
 
-                registerTimer = true;
+                updateTimer = true;
 
                 return true;
             }
@@ -70,7 +70,7 @@ public class SettingsActivityFragment extends PreferenceFragment {
                     editor.commit();
                 }
 
-                registerTimer = true;
+                updateTimer = true;
 
                 return true;
             }
@@ -87,7 +87,7 @@ public class SettingsActivityFragment extends PreferenceFragment {
                     notificationTime.setValue(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
                 }
 
-                registerTimer = true;
+                updateTimer = true;
 
                 return true;
             }
@@ -96,7 +96,7 @@ public class SettingsActivityFragment extends PreferenceFragment {
         // 通知時間変更時
         notificationTime.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             public boolean onPreferenceChange(Preference preference, Object value) {
-                registerTimer = true;
+                updateTimer = true;
 
                 return true;
             }
@@ -114,7 +114,7 @@ public class SettingsActivityFragment extends PreferenceFragment {
         // 通知設定が無効な場合、通知時間の選択を無効にする
         notificationTime.setEnabled(notification.isChecked());
 
-        registerTimer = false;
+        updateTimer = false;
     }
 
     @Override
@@ -122,8 +122,8 @@ public class SettingsActivityFragment extends PreferenceFragment {
         super.onPause();
 
         // 通知を更新
-        if (registerTimer) {
-            ContactLendsTimerUtils.updateTimer(getContext());
+        if (updateTimer) {
+            ContactLendsTimerUtils.updateTimer(getActivity().getApplicationContext());
         }
     }
 }

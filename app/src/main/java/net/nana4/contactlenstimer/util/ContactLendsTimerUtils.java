@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import net.nana4.contactlenstimer.AlarmBroadcastReceiver;
 import net.nana4.contactlenstimer.R;
@@ -38,9 +37,15 @@ public class ContactLendsTimerUtils {
         cancelAlarm(context, REQUEST_CODE_RIGHT_EYE);
         cancelAlarm(context, REQUEST_CODE_LEFT_EYE);
 
+        if (!prefs.getBoolean("notification", false)) {
+            // 通知設定がオフ
+            return;
+        }
+
         DateFormat saveTimeFormat = TimePreference.formatter();
 
         String notificationTime = prefs.getString("notification_time", null);
+
         Calendar timeCalendar = Calendar.getInstance();
 
         // HH:MM
@@ -105,8 +110,7 @@ public class ContactLendsTimerUtils {
         addUseDate(context, calendar);
 
         if (calendar.compareTo(Calendar.getInstance()) < 1) {
-            // 既に交換日を過ぎている場合は通知せずToastを表示
-            Toast.makeText(context, context.getString(R.string.past_use_end_date), Toast.LENGTH_SHORT).show();
+            // 既に交換日を過ぎている場合
             return;
         }
 
