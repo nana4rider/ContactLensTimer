@@ -10,17 +10,19 @@
         tools:summary="@string/lends_type_2week"></ListPreference>
 
     <SwitchPreference
+        android:defaultValue="false"
         android:key="lends_separately"
         android:title="左右別々に設定する"></SwitchPreference>
 
     <SwitchPreference
+        android:defaultValue="false"
         android:key="notification"
         android:summary="ONにするとテスト通知を行います"
         android:title="通知設定"></SwitchPreference>
 
     <org.bostonandroid.timepreference.TimePreference
+        android:defaultValue="00:00"
         android:key="notification_time"
         android:title="通知時間"
         tools:summary="@string/sample_time"></org.bostonandroid.timepreference.TimePreference>
-
 </PreferenceScreen>

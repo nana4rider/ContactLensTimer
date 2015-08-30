@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="background">#FFFFFF</color>
     <color name="border">#DCDCDC</color>
-    <color name="category_title">#009385</color>
+    <color name="category_title">#009688</color>
 </resources>
