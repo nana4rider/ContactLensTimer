@@ -18,7 +18,7 @@ android {
     }
     productFlavors {
     }
-    
+
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
     }
@@ -28,6 +28,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'com.android.support:support-v4:23.0.0'
-    compile files('./libs/DatePreference.jar')
     compile files('./libs/TimePreference.jar')
 }

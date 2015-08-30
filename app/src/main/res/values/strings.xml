@@ -18,5 +18,7 @@
     <string name="sample_date">1970年1月1日 (木)</string>
     <string name="sample_time">0:0</string>
 
+    <string name="past_use_end_date">既に交換日を過ぎています</string>
+
     <string name="title_activity_setting">SettingActivity</string>
 </resources>

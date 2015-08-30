@@ -14,6 +14,8 @@ import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.nana4.contactlenstimer.util.ContactLendsTimerUtils;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } catch (ParseException e) {
-            Log.e(TAG, "保存されている日付が不正", e);
+            Log.e(TAG, "invalid date format", e);
         }
 
         TextView textViewRightEye = (TextView) findViewById(R.id.textViewRightEye);
@@ -121,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // 画面に反映
                 setTextUseDate(v.getId(), selectCalendar);
+
+                // 通知を更新
+                ContactLendsTimerUtils.updateTimer(getApplicationContext());
             }
         }, year, monthOfYear, dayOfMonth);
 
@@ -150,27 +155,8 @@ public class MainActivity extends AppCompatActivity {
 
         // 終了日を設定
         TextView endDateView = (TextView) findViewById(endViewId);
-        addUseDate(baseCalendar);
+        ContactLendsTimerUtils.addUseDate(getApplicationContext(), baseCalendar);
         endDateView.setText(viewDateFormat.format(baseCalendar.getTime()));
-    }
-
-    /**
-     * コンタクトレンズの利用日数を加算します
-     *
-     * @param baseCalendar
-     */
-    private void addUseDate(Calendar baseCalendar) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        String lendsType = prefs.getString("lends_type", "2w");
-
-        switch (lendsType) {
-            case "2w":
-                baseCalendar.add(Calendar.DAY_OF_MONTH, 14);
-                break;
-            case "1m":
-                baseCalendar.add(Calendar.MONTH, 1);
-        }
     }
 
     @Override
