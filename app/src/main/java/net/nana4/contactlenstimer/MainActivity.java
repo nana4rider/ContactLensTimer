@@ -114,6 +114,11 @@ public class MainActivity extends AppCompatActivity {
         DatePickerDialog datePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view,
                                   int year, int monthOfYear, int dayOfMonth) {
+                // 二重呼び出しを防止
+                if (!view.isShown()) {
+                    return;
+                }
+
                 Calendar selectCalendar = new GregorianCalendar(year, monthOfYear, dayOfMonth);
 
                 // 開始日を保存

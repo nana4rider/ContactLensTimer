@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import net.nana4.contactlenstimer.AlarmBroadcastReceiver;
 import net.nana4.contactlenstimer.R;
@@ -111,7 +112,8 @@ public class ContactLendsTimerUtils {
 
         if (calendar.compareTo(Calendar.getInstance()) < 1) {
             // 既に交換日を過ぎている場合
-            return;
+            // TODO:
+            // return;
         }
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -121,6 +123,9 @@ public class ContactLendsTimerUtils {
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+        // TODO:
+        Toast.makeText(context, "設定しました", Toast.LENGTH_SHORT).show();
     }
 
     /**
