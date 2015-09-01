@@ -4,5 +4,10 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="SettingsTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
+    <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar"></style>
+
+    <style name="ButtonSpinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:paddingTop">1dip</item>
+        <item name="android:paddingBottom">1dip</item>
+    </style>
 </resources>
