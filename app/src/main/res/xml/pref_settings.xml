@@ -9,10 +9,10 @@
         android:title="@string/lends_type_title"
         tools:summary="@string/lends_type_2week"></ListPreference>
 
-    <SwitchPreference
+    <CheckBoxPreference
         android:defaultValue="false"
         android:key="lends_separately"
-        android:title="@string/lends_separately_title"></SwitchPreference>
+        android:title="@string/lends_separately_title"></CheckBoxPreference>
 
     <SwitchPreference
         android:defaultValue="false"

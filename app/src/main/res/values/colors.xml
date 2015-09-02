@@ -3,4 +3,5 @@
     <color name="background">#FFFFFF</color>
     <color name="border">#DCDCDC</color>
     <color name="category_title">#009688</color>
+    <color name="button_spinner_text">#000000</color>
 </resources>

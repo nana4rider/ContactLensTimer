@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.nana4.contactlenstimer.fragments.SettingsFragment;
+
 public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -20,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(android.R.id.content, Fragment.instantiate(this, SettingsActivityFragment.class.getName()));
+        fragmentTransaction.replace(android.R.id.content, Fragment.instantiate(this, SettingsFragment.class.getName()));
         fragmentTransaction.commit();
     }
 

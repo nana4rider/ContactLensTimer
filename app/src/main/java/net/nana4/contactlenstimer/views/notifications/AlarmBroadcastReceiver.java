@@ -1,4 +1,4 @@
-package net.nana4.contactlenstimer;
+package net.nana4.contactlenstimer.views.notifications;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -7,6 +7,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
+
+import net.nana4.contactlenstimer.MainActivity;
+import net.nana4.contactlenstimer.R;
 
 /**
  * Created by Shunichiro AKI on 2015/08/30.

@@ -7,7 +7,10 @@
     <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar"></style>
 
     <style name="ButtonSpinner" parent="Widget.AppCompat.Spinner">
-        <item name="android:paddingTop">1dip</item>
-        <item name="android:paddingBottom">1dip</item>
+        <item name="android:textColor">@color/button_spinner_text</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingTop">@dimen/value_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/value_vertical_padding</item>
     </style>
 </resources>

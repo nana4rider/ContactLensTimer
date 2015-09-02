@@ -1,22 +1,24 @@
-package net.nana4.contactlenstimer;
+package net.nana4.contactlenstimer.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 
-import net.nana4.contactlenstimer.util.ContactLendsTimerUtils;
+import net.nana4.contactlenstimer.R;
+import net.nana4.contactlenstimer.utils.ContactLendsTimerUtils;
 
 import org.bostonandroid.timepreference.TimePreference;
 
 import java.util.Calendar;
 
-public class SettingsActivityFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragment {
     private ListPreference lendsType;
-    private SwitchPreference lendsSeparately;
+    private CheckBoxPreference lendsSeparately;
     private SwitchPreference notification;
     private TimePreference notificationTime;
 
@@ -30,7 +32,7 @@ public class SettingsActivityFragment extends PreferenceFragment {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
         lendsType = (ListPreference) findPreference("lends_type");
-        lendsSeparately = (SwitchPreference) findPreference("lends_separately");
+        lendsSeparately = (CheckBoxPreference) findPreference("lends_separately");
         notification = (SwitchPreference) findPreference("notification");
         notificationTime = (TimePreference) findPreference("notification_time");
 

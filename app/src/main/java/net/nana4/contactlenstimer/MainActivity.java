@@ -14,7 +14,7 @@ import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import net.nana4.contactlenstimer.util.ContactLendsTimerUtils;
+import net.nana4.contactlenstimer.utils.ContactLendsTimerUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,6 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
     private DateFormat saveDateFormat;
     private DateFormat viewDateFormat;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,13 +90,6 @@ public class MainActivity extends AppCompatActivity {
             // 左目のレイアウトを非表示
             layoutLeftEye.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     public void onClickUseStartDate(final View v) {

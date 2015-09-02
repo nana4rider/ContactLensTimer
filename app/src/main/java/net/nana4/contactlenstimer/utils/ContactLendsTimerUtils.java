@@ -1,4 +1,4 @@
-package net.nana4.contactlenstimer.util;
+package net.nana4.contactlenstimer.utils;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import net.nana4.contactlenstimer.AlarmBroadcastReceiver;
+import net.nana4.contactlenstimer.views.notifications.AlarmBroadcastReceiver;
 import net.nana4.contactlenstimer.R;
 
 import org.bostonandroid.timepreference.TimePreference;

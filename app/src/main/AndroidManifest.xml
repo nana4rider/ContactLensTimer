@@ -21,10 +21,11 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_setting"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/SettingsTheme"></activity>
 
         <receiver
-            android:name=".AlarmBroadcastReceiver"
+            android:name=".views.notifications.AlarmBroadcastReceiver"
             android:process=":remote" />
     </application>
 
