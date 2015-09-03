@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.nana4.contactlenstimer.fragments.MainFragment;
 import net.nana4.contactlenstimer.utils.ContactLendsTimerUtils;
 
 import java.text.DateFormat;
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new MainFragment()).commit();
 
         // 日付フォーマット
         saveDateFormat = new SimpleDateFormat(getString(R.string.save_date_format));
