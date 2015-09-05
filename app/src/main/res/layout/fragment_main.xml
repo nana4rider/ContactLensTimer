@@ -33,14 +33,13 @@
             android:text="@string/use_start_date" />
 
         <Button
-            android:id="@+id/textViewRightUseStartDate"
+            android:id="@+id/textViewBothUseStartDate"
             style="@style/ButtonSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/view2"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/view2"
             android:layout_below="@+id/textView2"
             android:textAppearance="?android:attr/textAppearanceMedium"
             tools:text="@string/sample_date" />
@@ -50,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/border_width"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/textViewRightUseStartDate"
+            android:layout_below="@+id/textViewBothUseStartDate"
             android:background="@color/border" />
 
         <TextView
@@ -59,12 +58,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/textViewRightUseStartDate"
+            android:layout_below="@+id/textViewBothUseStartDate"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/use_end_date" />
 
         <TextView
-            android:id="@+id/textViewRightUseEndDate"
+            android:id="@+id/textViewBothUseEndDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -80,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/border_width"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/textViewRightUseEndDate"
+            android:layout_below="@+id/textViewBothUseEndDate"
             android:background="@color/border" />
 
     </RelativeLayout>

@@ -10,6 +10,7 @@ import android.support.v7.app.NotificationCompat;
 
 import net.nana4.contactlenstimer.MainActivity;
 import net.nana4.contactlenstimer.R;
+import net.nana4.contactlenstimer.utils.ContactLendsTimerUtils;
 
 /**
  * Created by Shunichiro AKI on 2015/08/30.
@@ -23,8 +24,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         // 通知
         myNotification.notify(intent.getIntExtra("requestCode", -1), notification);
 
-        // タイマーを再設定
-//        ContactLendsTimerUtils.resetTimer(context, intent.getStringExtra("prefKey"));
+        if (intent.getBooleanExtra("repeatTimer", false)) {
+            ContactLendsTimerUtils.resetTimer(context, intent.getStringExtra("prefKey"));
+        }
     }
 
     private Notification prepareNotification(Context context, Intent intent) {
@@ -40,6 +42,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setContentText(intent.getStringExtra("message"))
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setContentIntent(contentIntent);
 

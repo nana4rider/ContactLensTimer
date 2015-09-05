@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <ListPreference
-        android:defaultValue="2w"
-        android:entries="@array/lends_type"
-        android:entryValues="@array/lends_type_values"
-        android:key="lends_type"
-        android:title="@string/lends_type_title"
-        tools:summary="@string/lends_type_2week"></ListPreference>
+    <PreferenceCategory android:title="@string/preference_category_notification">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="notification"
+            android:title="@string/notification_title"></SwitchPreference>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="lends_separately"
-        android:title="@string/lends_separately_title"></CheckBoxPreference>
+        <net.nana4.contactlenstimer.models.prefs.TimePreference
+            android:defaultValue="00:00"
+            android:key="notification_time"
+            android:title="@string/notification_time_title"></net.nana4.contactlenstimer.models.prefs.TimePreference>
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="notification"
-        android:title="@string/notification_title"></SwitchPreference>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="repeat_timer"
+            android:summary="@string/repeat_timer_description"
+            android:title="@string/repeat_timer"></SwitchPreference>
 
-    <org.bostonandroid.timepreference.TimePreference
-        android:defaultValue="00:00"
-        android:key="notification_time"
-        android:title="@string/notification_time_title"
-        tools:summary="@string/sample_time"></org.bostonandroid.timepreference.TimePreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preference_category_others">
+        <ListPreference
+            android:defaultValue="2w"
+            android:entries="@array/lends_type"
+            android:entryValues="@array/lends_type_values"
+            android:key="lends_type"
+            android:title="@string/lends_type_title"
+            tools:summary="@string/lends_type_2week"></ListPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="lends_separately"
+            android:title="@string/lends_separately_title"></CheckBoxPreference>
+    </PreferenceCategory>
 </PreferenceScreen>

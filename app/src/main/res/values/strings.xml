@@ -2,27 +2,27 @@
     <string name="app_name">ContactLensTimer</string>
     <string name="title_activity_setting">設定</string>
 
-    <string name="hello_world">Services</string>
-    <string name="action_settings">設定</string>
+    <!-- 設定関係 -->
+    <string name="preference_category_notification">通知</string>
+    <string name="notification_title">通知設定</string>
+    <string name="notification_time_title">通知時間</string>
+    <string name="repeat_timer">繰り返し通知</string>
+    <string name="repeat_timer_description">通知を自動的に再設定する</string>
+    <string name="preference_category_others">その他</string>
+    <string name="lends_type_title">コンタクトレンズの種類</string>
+    <string name="lends_separately_title">左右別々に設定する</string>
+
     <string name="use_start_date">使用開始日</string>
     <string name="use_end_date">交換日</string>
 
     <string name="right_eye">右目</string>
     <string name="left_eye">左目</string>
     <string name="both_eyes">右目/左目</string>
-    <string name="exchange_message">%s: コンタクトレンズの使用期限です</string>
-    <string name="passed_message">%s: 既にコンタクトレンズの使用期限が過ぎています</string>
-
     <string name="lends_type_2week">2week</string>
     <string name="lends_type_1month">1month</string>
 
+    <string name="exchange_message">%s: コンタクトレンズの使用期限です</string>
+    <string name="remain_message">(残り%d日)</string>
+
     <string name="sample_date">1970年1月1日 (木)</string>
-    <string name="sample_time">0:0</string>
-
-    <string name="update_timer">タイマーを更新しました</string>
-
-    <string name="lends_type_title">コンタクトレンズの種類</string>
-    <string name="lends_separately_title">左右別々に設定する</string>
-    <string name="notification_title">通知設定</string>
-    <string name="notification_time_title">通知時間</string>
 </resources>

@@ -40,7 +40,6 @@
             android:layout_alignEnd="@+id/view2"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/view2"
             android:layout_below="@+id/textView2"
             android:textAppearance="?android:attr/textAppearanceMedium"
             tools:text="@string/sample_date" />

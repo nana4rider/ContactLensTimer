@@ -8,10 +8,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
 
+import net.grandcentrix.tray.TrayAppPreferences;
 import net.nana4.contactlenstimer.R;
+import net.nana4.contactlenstimer.models.prefs.TimePreference;
 import net.nana4.contactlenstimer.views.notifications.AlarmBroadcastReceiver;
-
-import org.bostonandroid.timepreference.TimePreference;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,11 +20,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ContactLendsTimerUtils {
-    private static final String TAG = ContactLendsTimerUtils.class.getSimpleName();
-
-    private static final int REQUEST_CODE_RIGHT_EYE = 0;
-    private static final int REQUEST_CODE_LEFT_EYE = 1;
-
     private static final int MAX_TIMER_COUNT = 2;
 
     public static String getUseStartDateKey(View view) {
@@ -33,6 +28,8 @@ public class ContactLendsTimerUtils {
                 return "right_use_start_date";
             case R.id.textViewLeftUseStartDate:
                 return "left_use_start_date";
+            case R.id.textViewBothUseStartDate:
+                return "both_use_start_date";
             default:
                 throw new IllegalArgumentException(view.toString());
         }
@@ -69,29 +66,6 @@ public class ContactLendsTimerUtils {
     }
 
     /**
-     * 通知時間を取得します。
-     *
-     * @param context
-     * @return
-     */
-    public static Calendar getNotificationTimeCalendar(Context context) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        Calendar timeCalendar = Calendar.getInstance();
-        DateFormat saveTimeFormat = TimePreference.formatter();
-        String notificationTime = prefs.getString("notification_time", null);
-
-        try {
-            timeCalendar.setTime(saveTimeFormat.parse(notificationTime));
-
-            // HH:MM
-            return timeCalendar;
-        } catch (ParseException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    /**
      * 通知を登録・削除します。
      *
      * @param context
@@ -110,7 +84,10 @@ public class ContactLendsTimerUtils {
         }
 
         boolean lensSeparately = prefs.getBoolean("lends_separately", false);
-        Calendar timeCalendar = getNotificationTimeCalendar(context);
+
+        Calendar timeCalendar = Calendar.getInstance();
+        String notificationTime = prefs.getString("notification_time", null);
+        timeCalendar.setTime(TimePreference.toDate(notificationTime));
 
         // 通知を登録
         boolean result;
@@ -118,7 +95,7 @@ public class ContactLendsTimerUtils {
             setAlarm(context, context.getString(R.string.right_eye), "right_use_start_date", 0, timeCalendar);
             setAlarm(context, context.getString(R.string.left_eye), "left_use_start_date", 1, timeCalendar);
         } else {
-            setAlarm(context, context.getString(R.string.both_eyes), "right_use_start_date", 0, timeCalendar);
+            setAlarm(context, context.getString(R.string.both_eyes), "both_use_start_date", 0, timeCalendar);
         }
     }
 
@@ -133,7 +110,9 @@ public class ContactLendsTimerUtils {
 
     private static boolean setAlarm(Context context, String eye, String prefKey, int requestCode, Calendar timeCalendar) {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String useStartDate = prefs.getString(prefKey, null);
+        final TrayAppPreferences tray = new TrayAppPreferences(context);
+
+        String useStartDate = tray.getString(prefKey, null);
 
         if (useStartDate == null) {
             // 使用開始日が未登録
@@ -149,19 +128,13 @@ public class ContactLendsTimerUtils {
         // 交換日数を追加
         addUseDate(context, calendar);
 
-        if (calendar.compareTo(Calendar.getInstance()) < 1) {
-            // 既に交換日を過ぎている場合
-            // Toast.makeText(context, String.format(context.getString(R.string.passed_message), eye), Toast.LENGTH_SHORT).show();
-
-            //  return false;
-        }
-
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
         intent.putExtra("message", String.format(context.getString(R.string.exchange_message), eye));
         intent.putExtra("prefKey", prefKey);
         intent.putExtra("requestCode", requestCode);
+        intent.putExtra("repeatTimer", prefs.getBoolean("repeat_timer", false));
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
@@ -169,23 +142,22 @@ public class ContactLendsTimerUtils {
         return true;
     }
 
-//    /**
-//     * タイマーを再設定します。
-//     *
-//     * @param context
-//     * @param prefKey
-//     */
-//    public static void resetTimer(Context context, String prefKey) {
-//        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-//        // 開始日を保存
-//        SharedPreferences.Editor editor = prefs.edit();
-//        String saveDate = formatSaveDate(context, new Date());
-//        editor.putString(prefKey, saveDate);
-//        editor.commit();
-//
-//        // タイマーを更新
-//        updateTimer(context);
-//    }
+    /**
+     * タイマーを再設定します。
+     *
+     * @param context
+     * @param prefKey
+     */
+    public static void resetTimer(Context context, String prefKey) {
+        final TrayAppPreferences tray = new TrayAppPreferences(context);
+
+        // 開始日を保存
+        String saveDate = formatSaveDate(context, new Date());
+        tray.put(prefKey, saveDate);
+
+        // タイマーを更新
+        updateTimer(context);
+    }
 
     /**
      * コンタクトレンズの利用日数を加算します

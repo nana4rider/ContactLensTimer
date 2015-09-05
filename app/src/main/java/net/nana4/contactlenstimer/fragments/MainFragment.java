@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import net.grandcentrix.tray.TrayAppPreferences;
 import net.nana4.contactlenstimer.R;
 import net.nana4.contactlenstimer.utils.ContactLendsTimerUtils;
 
@@ -25,10 +26,6 @@ import java.util.List;
  * Created by Shunichiro AKI on 2015/09/03.
  */
 public class MainFragment extends Fragment {
-    private static final String TAG = MainFragment.class.getSimpleName();
-
-    private DateFormat viewDateFormat;
-
     private List<TextView> startDateViewList;
     private List<TextView> endDateViewList;
 
@@ -45,8 +42,8 @@ public class MainFragment extends Fragment {
 
         boolean lensSeparately = prefs.getBoolean("lends_separately", false);
 
-        int[] startDateIds = new int[]{R.id.textViewRightUseStartDate, R.id.textViewLeftUseStartDate};
-        int[] endDateIds = new int[]{R.id.textViewRightUseEndDate, R.id.textViewLeftUseEndDate};
+        int[] startDateIds = new int[]{R.id.textViewRightUseStartDate, R.id.textViewLeftUseStartDate, R.id.textViewBothUseStartDate};
+        int[] endDateIds = new int[]{R.id.textViewRightUseEndDate, R.id.textViewLeftUseEndDate, R.id.textViewBothUseEndDate};
 
         // 左右別々のチェック有無で画面を選択する
         if (lensSeparately) {
@@ -73,8 +70,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 日付フォーマット
-        viewDateFormat = android.text.format.DateFormat.getLongDateFormat(getActivity());
     }
 
     @Override
@@ -84,8 +79,6 @@ public class MainFragment extends Fragment {
         View.OnClickListener onClickStartDate = new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
                 // Preferenceに保存するキーを求める
                 final String saveKey = ContactLendsTimerUtils.getUseStartDateKey(view);
 
@@ -107,10 +100,10 @@ public class MainFragment extends Fragment {
                         Calendar selectCalendar = new GregorianCalendar(year, monthOfYear, dayOfMonth);
 
                         // 開始日を保存
-                        SharedPreferences.Editor editor = prefs.edit();
+                        final TrayAppPreferences tray = new TrayAppPreferences(getActivity());
                         String saveDate = ContactLendsTimerUtils.formatSaveDate(getActivity(), selectCalendar.getTime());
-                        editor.putString(saveKey, saveDate);
-                        editor.commit();
+                        tray.put(saveKey, saveDate);
+
 
                         // 画面に反映
                         setTextUseDate((TextView) view, selectCalendar);
@@ -133,11 +126,11 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        final TrayAppPreferences tray = new TrayAppPreferences(getActivity());
 
         for (TextView startDateView : startDateViewList) {
             Calendar calendar = Calendar.getInstance();
-            String date = prefs.getString(ContactLendsTimerUtils.getUseStartDateKey(startDateView), null);
+            String date = tray.getString(ContactLendsTimerUtils.getUseStartDateKey(startDateView), null);
 
             if (date != null) {
                 calendar.setTime(ContactLendsTimerUtils.parseSaveDate(getActivity(), date));
@@ -153,6 +146,9 @@ public class MainFragment extends Fragment {
      * @param baseCalendar
      */
     private void setTextUseDate(TextView startDateView, Calendar baseCalendar) {
+        // 日付フォーマット
+        DateFormat viewDateFormat = android.text.format.DateFormat.getLongDateFormat(getActivity());
+
         TextView endDateView = endDateViewList.get(startDateViewList.indexOf(startDateView));
 
         // 開始日を設定
@@ -160,7 +156,9 @@ public class MainFragment extends Fragment {
 
         // 終了日を設定
         ContactLendsTimerUtils.addUseDate(getActivity(), baseCalendar);
-        endDateView.setText(viewDateFormat.format(baseCalendar.getTime()));
+
+        long remain = (baseCalendar.getTimeInMillis() - System.currentTimeMillis()) / (24 * 60 * 60 * 1000);
+        endDateView.setText(viewDateFormat.format(baseCalendar.getTime()) + " " + String.format(getString(R.string.remain_message), remain));
     }
 
 }
