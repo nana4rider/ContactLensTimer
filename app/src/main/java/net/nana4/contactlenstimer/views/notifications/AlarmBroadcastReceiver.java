@@ -19,10 +19,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         NotificationManager myNotification = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = prepareNotification(context, intent);
-        myNotification.notify(R.string.app_name, notification);
-
-        // TODO
-        //ContactLendsTimerUtils.updateTimer(context);
+        myNotification.notify(intent.getIntExtra("requestCode", -1), notification);
     }
 
     private Notification prepareNotification(Context context, Intent intent) {
@@ -33,8 +30,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(
                 context);
         builder.setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setTicker(intent.getStringExtra("message"))
-                .setContentTitle(intent.getStringExtra("message"))
+                .setTicker(context.getString(R.string.app_name))
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(intent.getStringExtra("message"))
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_SOUND)

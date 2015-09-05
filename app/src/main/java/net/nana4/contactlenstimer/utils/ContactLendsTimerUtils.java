@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -26,6 +25,8 @@ public class ContactLendsTimerUtils {
 
     private static final int REQUEST_CODE_RIGHT_EYE = 0;
     private static final int REQUEST_CODE_LEFT_EYE = 1;
+
+    private static final int MAX_TIMER_COUNT = 2;
 
     public static String getUseStartDateKey(View view) {
         switch (view.getId()) {
@@ -77,44 +78,36 @@ public class ContactLendsTimerUtils {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         // 前回登録した通知を削除
-        cancelAlarm(context, REQUEST_CODE_RIGHT_EYE);
-        cancelAlarm(context, REQUEST_CODE_LEFT_EYE);
+        for (int requestCode = 0; requestCode < MAX_TIMER_COUNT; requestCode++) {
+            cancelAlarm(context, requestCode);
+        }
 
         if (!prefs.getBoolean("notification", false)) {
             // 通知設定がオフ
             return;
         }
 
-        DateFormat saveTimeFormat = TimePreference.formatter();
-
-        String notificationTime = prefs.getString("notification_time", null);
-
         Calendar timeCalendar = Calendar.getInstance();
+        DateFormat saveTimeFormat = TimePreference.formatter();
+        String notificationTime = prefs.getString("notification_time", null);
 
         // HH:MM
         try {
             timeCalendar.setTime(saveTimeFormat.parse(notificationTime));
         } catch (ParseException e) {
-            // TODO: メッセージ
-            Log.e(TAG, "invalid date format", e);
-
-            return;
+            throw new IllegalStateException(e);
         }
 
-        StringBuilder toastText = new StringBuilder();
+        boolean lensSeparately = prefs.getBoolean("lends_separately", false);
 
         // 通知を登録
-        setAlarm(context, prefs.getString("right_use_start_date", null), REQUEST_CODE_RIGHT_EYE, timeCalendar);
-        setAlarm(context, prefs.getString("left_use_start_date", null), REQUEST_CODE_LEFT_EYE, timeCalendar);
-    }
-
-    private static String getRegisterText(Context context, Date date) {
-        StringBuilder toastText = new StringBuilder();
-
-        toastText.append(android.text.format.DateFormat.getLongDateFormat(context).format(date)).append(' ');
-        toastText.append(android.text.format.DateFormat.getTimeFormat(context).format(date));
-
-        return toastText.toString();
+        boolean result;
+        if (lensSeparately) {
+            setAlarm(context, context.getString(R.string.right_eye), "right_use_start_date", 0, timeCalendar);
+            setAlarm(context, context.getString(R.string.left_eye), "left_use_start_date", 1, timeCalendar);
+        } else {
+            setAlarm(context, context.getString(R.string.both_eyes), "right_use_start_date", 0, timeCalendar);
+        }
     }
 
     private static void cancelAlarm(Context context, int requestCode) {
@@ -126,12 +119,13 @@ public class ContactLendsTimerUtils {
         am.cancel(pendingIntent);
     }
 
-    private static void setAlarm(Context context, String useStartDate, int requestCode, Calendar timeCalendar) {
+    private static boolean setAlarm(Context context, String eye, String prefKey, int requestCode, Calendar timeCalendar) {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String useStartDate = prefs.getString(prefKey, null);
 
         if (useStartDate == null) {
             // 使用開始日が未登録
-            return;
+            return false;
         }
 
         Calendar calendar = Calendar.getInstance();
@@ -145,20 +139,22 @@ public class ContactLendsTimerUtils {
 
         if (calendar.compareTo(Calendar.getInstance()) < 1) {
             // 既に交換日を過ぎている場合
-            // TODO:
-            // return;
+            Toast.makeText(context, String.format(context.getString(R.string.passed_message), eye), Toast.LENGTH_SHORT).show();
+
+            return false;
         }
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
-        intent.putExtra("message", calendar.getTime().toString());
+        intent.putExtra("message", String.format(context.getString(R.string.exchange_message), eye));
+        intent.putExtra("prefKey", prefKey);
+        intent.putExtra("requestCode", requestCode);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
-        // TODO:
-        Toast.makeText(context, "設定しました", Toast.LENGTH_SHORT).show();
+        return true;
     }
 
     /**
