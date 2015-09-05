@@ -20,6 +20,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         NotificationManager myNotification = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = prepareNotification(context, intent);
         myNotification.notify(R.string.app_name, notification);
+
+        // TODO
+        //ContactLendsTimerUtils.updateTimer(context);
     }
 
     private Notification prepareNotification(Context context, Intent intent) {

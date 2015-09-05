@@ -1,10 +1,10 @@
 <resources>
-    <array name="lends_type">
+    <string-array name="lends_type">
         <item>@string/lends_type_2week</item>
         <item>@string/lends_type_1month</item>
-    </array>
-    <array name="lends_type_values">
+    </string-array>
+    <string-array name="lends_type_values">
         <item>2w</item>
         <item>1m</item>
-    </array>
+    </string-array>
 </resources>

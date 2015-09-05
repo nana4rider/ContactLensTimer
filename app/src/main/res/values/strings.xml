@@ -14,8 +14,6 @@
     <string name="lends_type_2week">2week</string>
     <string name="lends_type_1month">1month</string>
 
-    <string name="save_date_format">yyyy.MM.dd</string>
-
     <string name="sample_date">1970年1月1日 (木)</string>
     <string name="sample_time">0:0</string>
 

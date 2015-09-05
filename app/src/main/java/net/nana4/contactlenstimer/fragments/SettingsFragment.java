@@ -29,7 +29,7 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_settings);
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         lendsType = (ListPreference) findPreference("lends_type");
         lendsSeparately = (CheckBoxPreference) findPreference("lends_separately");
@@ -56,22 +56,6 @@ public class SettingsFragment extends PreferenceFragment {
         // 左右別々変更時
         lendsSeparately.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             public boolean onPreferenceChange(Preference preference, Object value) {
-                if ((Boolean) value) {
-                    // 左右別々に設定した場合、右目の日付を左目にコピーする。
-                    String rightUseStartDate = prefs.getString("right_use_start_date", null);
-
-                    if (rightUseStartDate != null) {
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("left_use_start_date", rightUseStartDate);
-                        editor.commit();
-                    }
-                } else {
-                    // 左右別々に設定しない場合、左目の日付を削除する
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.remove("left_use_start_date");
-                    editor.commit();
-                }
-
                 updateTimer = true;
 
                 return true;
@@ -125,7 +109,7 @@ public class SettingsFragment extends PreferenceFragment {
 
         // 通知を更新
         if (updateTimer) {
-            ContactLendsTimerUtils.updateTimer(getActivity().getApplicationContext());
+            ContactLendsTimerUtils.updateTimer(getActivity());
         }
     }
 }

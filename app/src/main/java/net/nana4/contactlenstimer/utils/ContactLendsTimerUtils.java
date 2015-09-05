@@ -7,10 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
-import net.nana4.contactlenstimer.views.notifications.AlarmBroadcastReceiver;
 import net.nana4.contactlenstimer.R;
+import net.nana4.contactlenstimer.views.notifications.AlarmBroadcastReceiver;
 
 import org.bostonandroid.timepreference.TimePreference;
 
@@ -25,6 +26,47 @@ public class ContactLendsTimerUtils {
 
     private static final int REQUEST_CODE_RIGHT_EYE = 0;
     private static final int REQUEST_CODE_LEFT_EYE = 1;
+
+    public static String getUseStartDateKey(View view) {
+        switch (view.getId()) {
+            case R.id.textViewRightUseStartDate:
+                return "right_use_start_date";
+            case R.id.textViewLeftUseStartDate:
+                return "left_use_start_date";
+            default:
+                throw new IllegalArgumentException(view.toString());
+        }
+    }
+
+    private static DateFormat getSaveDateFormatter(Context context) {
+        return new SimpleDateFormat("yyyy.MM.dd");
+    }
+
+    /**
+     * Preferenceに保存する日付文字列を取得します。
+     *
+     * @param context
+     * @param date
+     * @return
+     */
+    public static String formatSaveDate(Context context, Date date) {
+        return getSaveDateFormatter(context).format(date);
+    }
+
+    /**
+     * Preferenceに保存した日付文字列を解析します。
+     *
+     * @param context
+     * @param date
+     * @return
+     */
+    public static Date parseSaveDate(Context context, String date) {
+        try {
+            return getSaveDateFormatter(context).parse(date);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 
     /**
      * 通知を登録・削除します。
@@ -92,17 +134,8 @@ public class ContactLendsTimerUtils {
             return;
         }
 
-        DateFormat saveDateFormat = new SimpleDateFormat(context.getString(R.string.save_date_format));
         Calendar calendar = Calendar.getInstance();
-
-        try {
-            calendar.setTime(saveDateFormat.parse(useStartDate));
-        } catch (ParseException e) {
-            // TODO: メッセージ
-            Log.e(TAG, "invalid date format", e);
-
-            return;
-        }
+        calendar.setTime(parseSaveDate(context, useStartDate));
 
         // 通知時間を追加
         calendar.add(Calendar.HOUR_OF_DAY, timeCalendar.get(Calendar.HOUR_OF_DAY));
