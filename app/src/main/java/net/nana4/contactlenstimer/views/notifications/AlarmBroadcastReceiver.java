@@ -19,7 +19,12 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         NotificationManager myNotification = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = prepareNotification(context, intent);
+
+        // 通知
         myNotification.notify(intent.getIntExtra("requestCode", -1), notification);
+
+        // タイマーを再設定
+//        ContactLendsTimerUtils.resetTimer(context, intent.getStringExtra("prefKey"));
     }
 
     private Notification prepareNotification(Context context, Intent intent) {

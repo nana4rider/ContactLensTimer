@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.Toast;
 
 import net.nana4.contactlenstimer.R;
 import net.nana4.contactlenstimer.views.notifications.AlarmBroadcastReceiver;
@@ -70,6 +69,29 @@ public class ContactLendsTimerUtils {
     }
 
     /**
+     * 通知時間を取得します。
+     *
+     * @param context
+     * @return
+     */
+    public static Calendar getNotificationTimeCalendar(Context context) {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        Calendar timeCalendar = Calendar.getInstance();
+        DateFormat saveTimeFormat = TimePreference.formatter();
+        String notificationTime = prefs.getString("notification_time", null);
+
+        try {
+            timeCalendar.setTime(saveTimeFormat.parse(notificationTime));
+
+            // HH:MM
+            return timeCalendar;
+        } catch (ParseException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /**
      * 通知を登録・削除します。
      *
      * @param context
@@ -87,18 +109,8 @@ public class ContactLendsTimerUtils {
             return;
         }
 
-        Calendar timeCalendar = Calendar.getInstance();
-        DateFormat saveTimeFormat = TimePreference.formatter();
-        String notificationTime = prefs.getString("notification_time", null);
-
-        // HH:MM
-        try {
-            timeCalendar.setTime(saveTimeFormat.parse(notificationTime));
-        } catch (ParseException e) {
-            throw new IllegalStateException(e);
-        }
-
         boolean lensSeparately = prefs.getBoolean("lends_separately", false);
+        Calendar timeCalendar = getNotificationTimeCalendar(context);
 
         // 通知を登録
         boolean result;
@@ -139,9 +151,9 @@ public class ContactLendsTimerUtils {
 
         if (calendar.compareTo(Calendar.getInstance()) < 1) {
             // 既に交換日を過ぎている場合
-            Toast.makeText(context, String.format(context.getString(R.string.passed_message), eye), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(context, String.format(context.getString(R.string.passed_message), eye), Toast.LENGTH_SHORT).show();
 
-            return false;
+            //  return false;
         }
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -156,6 +168,24 @@ public class ContactLendsTimerUtils {
 
         return true;
     }
+
+//    /**
+//     * タイマーを再設定します。
+//     *
+//     * @param context
+//     * @param prefKey
+//     */
+//    public static void resetTimer(Context context, String prefKey) {
+//        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+//        // 開始日を保存
+//        SharedPreferences.Editor editor = prefs.edit();
+//        String saveDate = formatSaveDate(context, new Date());
+//        editor.putString(prefKey, saveDate);
+//        editor.commit();
+//
+//        // タイマーを更新
+//        updateTimer(context);
+//    }
 
     /**
      * コンタクトレンズの利用日数を加算します
@@ -176,5 +206,4 @@ public class ContactLendsTimerUtils {
                 baseCalendar.add(Calendar.MONTH, 1);
         }
     }
-
 }
