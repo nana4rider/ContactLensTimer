@@ -9,7 +9,7 @@ import net.nana4.contactlenstimer.utils.ContactLendsTimerUtils;
 /**
  * Created by Shunichiro AKI on 2015/09/05.
  */
-public class BoostReceiver extends BroadcastReceiver {
+public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();

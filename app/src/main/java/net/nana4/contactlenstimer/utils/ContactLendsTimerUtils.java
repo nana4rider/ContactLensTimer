@@ -10,8 +10,8 @@ import android.view.View;
 
 import net.grandcentrix.tray.TrayAppPreferences;
 import net.nana4.contactlenstimer.R;
-import net.nana4.contactlenstimer.models.prefs.TimePreference;
 import net.nana4.contactlenstimer.views.notifications.AlarmBroadcastReceiver;
+import net.nana4.timepreference.TimePreference;
 
 import java.text.DateFormat;
 import java.text.ParseException;

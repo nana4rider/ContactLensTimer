@@ -10,8 +10,8 @@ import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 
 import net.nana4.contactlenstimer.R;
-import net.nana4.contactlenstimer.models.prefs.TimePreference;
 import net.nana4.contactlenstimer.utils.ContactLendsTimerUtils;
+import net.nana4.timepreference.TimePreference;
 
 import java.util.Calendar;
 
