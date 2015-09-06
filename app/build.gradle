@@ -5,9 +5,9 @@ android {
     buildToolsVersion "23.0.0"
     defaultConfig {
         applicationId "net.nana4.contactlenstimer"
-        minSdkVersion 16
+        minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
+        versionCode 3
         versionName "1.0"
     }
     buildTypes {
