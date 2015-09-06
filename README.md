@@ -1,0 +1,2 @@
+# ContactLensTimer
+コンタクトレンズの交換を通知するためのAndroidアプリケーションです。
