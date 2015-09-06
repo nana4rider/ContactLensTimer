@@ -151,8 +151,12 @@ public class ContactLendsTimerUtils {
     public static void resetTimer(Context context, String prefKey) {
         final TrayAppPreferences tray = new TrayAppPreferences(context);
 
+        Calendar calendar = Calendar.getInstance();
+        // 次の日
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+
         // 開始日を保存
-        String saveDate = formatSaveDate(context, new Date());
+        String saveDate = formatSaveDate(context, calendar.getTime());
         tray.put(prefKey, saveDate);
 
         // タイマーを更新
